@@ -30,6 +30,6 @@ class CalculatorTest {
 
     @Test
     void classHasSevenMethods(){
-        Assertions.assertEquals(7,Calculator.class.getMethods().length);
+        Assertions.assertEquals(7,Calculator.class.getMethods().length-Object.class.getMethods().length);
     }
 }
