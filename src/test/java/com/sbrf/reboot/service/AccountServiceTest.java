@@ -8,6 +8,7 @@ import org.mockito.Mockito;
 import java.util.HashSet;
 import java.util.Set;
 
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 class AccountServiceTest {
@@ -25,23 +26,40 @@ class AccountServiceTest {
     }
 
     @Test
-    void bookExist() {
-        Account account = new Account("ACC1234NUM");
-        Set<Account> accounts = new HashSet();
-        accounts.add(account);
+    void contractExist() {
+        Set<Long> accounts = new HashSet();
+        accounts.add(111L);
 
-        when(accountRepository.getAllAccountsByClientId(1L)).thenReturn(accounts);
+        long clientId = 1L;
+        long contractNumber = 111L;
 
-        assertTrue(accountService.isAccountExist(1L, account));
+
+        when(accountRepository.getAllAccountsByClientId(clientId)).thenReturn(accounts);
+
+        assertTrue(accountService.isClientHasContract(clientId, contractNumber));
     }
 
     @Test
-    void bookNotExist() {
-        Set<Account> accounts = new HashSet();
-        accounts.add(new Account("ACC1234NUM"));
+    void contractNotExist() {
+        Set<Long> accounts = new HashSet();
+        accounts.add(222L);
 
-        when(accountRepository.getAllAccountsByClientId(1L)).thenReturn(accounts);
+        long clientId = 1L;
+        long contractNumber = 111L;
 
-        assertFalse(accountService.isAccountExist(1L, new Account("ACC456NUM")));
+        when(accountRepository.getAllAccountsByClientId(clientId)).thenReturn(accounts);
+
+        assertFalse(accountService.isClientHasContract(clientId, contractNumber));
     }
+
+    @Test
+    void repositoryHasTreeMethods() {
+        assertEquals(2, AccountRepository.class.getMethods().length);
+    }
+
+    @Test
+    void serviceHasTreeMethods() {
+        assertEquals(2, AccountService.class.getMethods().length - Object.class.getMethods().length);
+    }
+
 }
