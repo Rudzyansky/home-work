@@ -12,6 +12,7 @@ import java.util.Set;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
+@SuppressWarnings({"unchecked", "rawtypes"})
 class AccountServiceTest {
 
     @Mock
@@ -34,7 +35,6 @@ class AccountServiceTest {
         long clientId = 1L;
         long contractNumber = 111L;
 
-
         when(accountRepository.getAllAccountsByClientId(clientId)).thenReturn(accounts);
 
         assertTrue(accountService.isClientHasContract(clientId, contractNumber));
@@ -54,6 +54,32 @@ class AccountServiceTest {
     }
 
     @Test
+    void cardExist() {
+        Set<Long> cards = new HashSet();
+        cards.add(4000_0000_0000_0000L);
+
+        long contractNumber = 111L;
+        long card = 4000_0000_0000_0000L;
+
+        when(accountRepository.getAllCardsByAccount(contractNumber)).thenReturn(cards);
+
+        assertTrue(accountService.isAccountHasCard(contractNumber, card));
+    }
+
+    @Test
+    void cardNotExist() {
+        Set<Long> cards = new HashSet();
+        cards.add(4000_0033_1230_0000L);
+
+        long contractNumber = 111L;
+        long card = 4000_0000_0000_0000L;
+
+        when(accountRepository.getAllCardsByAccount(contractNumber)).thenReturn(cards);
+
+        assertFalse(accountService.isAccountHasCard(contractNumber, card));
+    }
+
+    @Test
     void repositoryHasTreeMethods() {
         assertEquals(2, AccountRepository.class.getMethods().length);
     }
@@ -62,5 +88,4 @@ class AccountServiceTest {
     void serviceHasTreeMethods() {
         assertEquals(2, AccountService.class.getMethods().length - Object.class.getMethods().length);
     }
-
 }
