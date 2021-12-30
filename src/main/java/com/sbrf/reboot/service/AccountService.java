@@ -11,7 +11,7 @@ public class AccountService {
         return accountRepository.getAllAccountsByClientId(clientId).stream().anyMatch(c -> c == contractNumber);
     }
 
-    public boolean isAccountHasCard(long contractNumber, long card) {
-        return accountRepository.getAllCardsByAccount(contractNumber).stream().anyMatch(c -> c == card);
+    public boolean isAccountHasCard(long contractNumber, long cardNumber) {
+        return accountRepository.getAllCardsByAccount(contractNumber).stream().anyMatch(c -> c == cardNumber);
     }
 }

@@ -59,11 +59,11 @@ class AccountServiceTest {
         cards.add(4000_0000_0000_0000L);
 
         long contractNumber = 111L;
-        long card = 4000_0000_0000_0000L;
+        long cardNumber = 4000_0000_0000_0000L;
 
         when(accountRepository.getAllCardsByAccount(contractNumber)).thenReturn(cards);
 
-        assertTrue(accountService.isAccountHasCard(contractNumber, card));
+        assertTrue(accountService.isAccountHasCard(contractNumber, cardNumber));
     }
 
     @Test
