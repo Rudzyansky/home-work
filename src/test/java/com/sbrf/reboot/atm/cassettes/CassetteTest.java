@@ -7,9 +7,11 @@ import java.util.ArrayList;
 
 class CassetteTest {
 
+    @SuppressWarnings("InnerClassMayBeStatic")
     class OneHundred extends Banknote {
     }
 
+    @SuppressWarnings("InnerClassMayBeStatic")
     class OneThousand extends Banknote {
     }
 
