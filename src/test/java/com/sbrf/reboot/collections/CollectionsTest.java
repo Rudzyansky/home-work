@@ -2,14 +2,14 @@ package com.sbrf.reboot.collections;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class CollectionsTest {
-
-
     /*
      * Задача.
      * Имеется список лучших студентов вуза.
@@ -29,10 +29,13 @@ public class CollectionsTest {
      */
     @Test
     public void addStudentToRating() {
+        List<String> students = new ArrayList<>(3);
 
-        List<String> students = null;
+        students.add(0, "Иванов");
+        students.add(1, "Петров");
+        students.add(2, "Сидоров");
 
-        //...
+        students.add(0, "Козлов");
 
         assertEquals(4, students.size());
     }
@@ -49,10 +52,20 @@ public class CollectionsTest {
      */
     @Test
     public void addMoneyToBox() {
+        Set<Integer> moneyBox = new HashSet<>(10);
 
-        Set<Integer> moneyBox = null;
+        moneyBox.add(1);
+        moneyBox.add(2);
+        moneyBox.add(5);
 
-        //...
+        moneyBox.add(10);
+        moneyBox.add(20);
+        moneyBox.add(25);
+        moneyBox.add(50);
+
+        moneyBox.add(100);
+        moneyBox.add(200);
+        moneyBox.add(500);
 
         assertEquals(10, moneyBox.size());
     }
@@ -72,12 +85,16 @@ public class CollectionsTest {
         class Book {
         }
 
-        List<Book> bookshelf = null;
+        List<Book> bookshelf = new ArrayList<>(3);
 
-        //...
+        bookshelf.add(0, new Book());
+        bookshelf.add(1, new Book());
+        bookshelf.add(2, new Book());
+
+        int location = 1;
+        Book current = bookshelf.remove(location);
+        bookshelf.add(location, current);
 
         assertEquals(3, bookshelf.size());
     }
-
-
 }
