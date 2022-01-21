@@ -96,4 +96,28 @@ public class CollectionsTest {
 
         assertEquals(3, bookshelf.size());
     }
+
+    /**
+     * Task
+     * <p>
+     * Your friend have an automated scheduling software.
+     * He asked you to compose an anime titles list for watch it at free time.
+     * <p>
+     * Choose appropriate collection that implements {@link java.util.Collection} and fill it.
+     */
+    @Test
+    public void addTitleToFavorites() {
+        class Anime {
+        }
+
+        List<Anime> favorites = new ArrayList<>(5);
+
+        favorites.add(new Anime());
+        favorites.add(new Anime());
+        favorites.add(new Anime());
+        favorites.add(new Anime());
+        favorites.add(new Anime());
+
+        assertEquals(5, favorites.size());
+    }
 }
