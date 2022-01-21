@@ -87,13 +87,12 @@ public class CollectionsTest {
 
         List<Book> bookshelf = new ArrayList<>(3);
 
-        bookshelf.add(0, new Book());
-        bookshelf.add(1, new Book());
-        bookshelf.add(2, new Book());
+        bookshelf.add(new Book());
+        bookshelf.add(new Book());
+        bookshelf.add(new Book());
 
         int location = 1;
-        Book current = bookshelf.remove(location);
-        bookshelf.add(location, current);
+        Book current = bookshelf.get(location);
 
         assertEquals(3, bookshelf.size());
     }
