@@ -1,11 +1,10 @@
 package com.sbrf.reboot.equalshashcode;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.Objects;
+import java.util.*;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class EqualsHashCodeTest {
 
@@ -58,7 +57,7 @@ public class EqualsHashCodeTest {
         car2.releaseDate = new GregorianCalendar(2020, Calendar.JANUARY, 25);
         car2.maxSpeed = 10;
 
-        Assertions.assertTrue(car1.equals(car2));
+        assertTrue(car1.equals(car2));
     }
 
     @Test
@@ -75,7 +74,7 @@ public class EqualsHashCodeTest {
         car2.releaseDate = new GregorianCalendar(2017, Calendar.JANUARY, 25);
         car2.maxSpeed = 10;
 
-        Assertions.assertFalse(car1.equals(car2));
+        assertFalse(car1.equals(car2));
     }
 
     @Test
@@ -92,7 +91,7 @@ public class EqualsHashCodeTest {
         car2.releaseDate = new GregorianCalendar(2020, Calendar.JANUARY, 25);
         car2.maxSpeed = 10;
 
-        Assertions.assertEquals(car1.hashCode(), car2.hashCode());
+        assertEquals(car1.hashCode(), car2.hashCode());
     }
 
     @Test
@@ -109,6 +108,6 @@ public class EqualsHashCodeTest {
         car2.releaseDate = new GregorianCalendar(2017, Calendar.JANUARY, 25);
         car2.maxSpeed = 10;
 
-        Assertions.assertNotEquals(car1.hashCode(), car2.hashCode());
+        assertNotEquals(car1.hashCode(), car2.hashCode());
     }
 }
