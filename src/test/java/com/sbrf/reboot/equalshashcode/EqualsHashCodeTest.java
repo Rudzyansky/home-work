@@ -8,7 +8,7 @@ import java.util.GregorianCalendar;
 
 public class EqualsHashCodeTest {
 
-     class Car {
+    class Car {
         String model;
         String color;
         Calendar releaseDate;
@@ -28,19 +28,18 @@ public class EqualsHashCodeTest {
      }
 
     @Test
-    public  void assertTrueEquals() {
+    public void assertTrueEquals() {
         Car car1 = new Car();
         car1.model = "Mercedes";
         car1.color = "black";
-        car1.releaseDate = new GregorianCalendar(2020, 0, 25);
+        car1.releaseDate = new GregorianCalendar(2020, Calendar.JANUARY, 25);
         car1.maxSpeed = 10;
 
         Car car2 = new Car();
         car2.model = "Mercedes";
         car2.color = "black";
-        car2.releaseDate = new GregorianCalendar(2020, 0, 25);
+        car2.releaseDate = new GregorianCalendar(2020, Calendar.JANUARY, 25);
         car2.maxSpeed = 10;
-
 
         Assertions.assertTrue(car1.equals(car2));
     }
@@ -50,53 +49,49 @@ public class EqualsHashCodeTest {
         Car car1 = new Car();
         car1.model = "Mercedes";
         car1.color = "black";
-        car1.releaseDate = new GregorianCalendar(2020, 0, 25);
+        car1.releaseDate = new GregorianCalendar(2020, Calendar.JANUARY, 25);
         car1.maxSpeed = 10;
 
         Car car2 = new Car();
         car2.model = "Audi";
         car2.color = "white";
-        car2.releaseDate = new GregorianCalendar(2017, 0, 25);
+        car2.releaseDate = new GregorianCalendar(2017, Calendar.JANUARY, 25);
         car2.maxSpeed = 10;
 
         Assertions.assertFalse(car1.equals(car2));
     }
 
     @Test
-    public void successEqualsHashCode(){
+    public void successEqualsHashCode() {
         Car car1 = new Car();
         car1.model = "Mercedes";
         car1.color = "black";
-        car1.releaseDate = new GregorianCalendar(2020, 0, 25);
+        car1.releaseDate = new GregorianCalendar(2020, Calendar.JANUARY, 25);
         car1.maxSpeed = 10;
 
         Car car2 = new Car();
         car2.model = "Mercedes";
         car2.color = "black";
-        car2.releaseDate = new GregorianCalendar(2020, 0, 25);
+        car2.releaseDate = new GregorianCalendar(2020, Calendar.JANUARY, 25);
         car2.maxSpeed = 10;
 
-        Assertions.assertEquals(car1.hashCode(),car2.hashCode());
-
+        Assertions.assertEquals(car1.hashCode(), car2.hashCode());
     }
 
     @Test
-    public void failEqualsHashCode(){
+    public void failEqualsHashCode() {
         Car car1 = new Car();
         car1.model = "Mercedes";
         car1.color = "black";
-        car1.releaseDate = new GregorianCalendar(2020, 0, 25);
+        car1.releaseDate = new GregorianCalendar(2020, Calendar.JANUARY, 25);
         car1.maxSpeed = 10;
 
         Car car2 = new Car();
         car2.model = "Audi";
         car2.color = "white";
-        car2.releaseDate = new GregorianCalendar(2017, 0, 25);
+        car2.releaseDate = new GregorianCalendar(2017, Calendar.JANUARY, 25);
         car2.maxSpeed = 10;
 
-        Assertions.assertNotEquals(car1.hashCode(),car2.hashCode());
-
+        Assertions.assertNotEquals(car1.hashCode(), car2.hashCode());
     }
-
-
 }
