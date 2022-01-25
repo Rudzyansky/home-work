@@ -110,4 +110,37 @@ public class EqualsHashCodeTest {
 
         assertNotEquals(car1.hashCode(), car2.hashCode());
     }
+
+    @Test
+    public void asKeyTest() {
+        Car car1 = new Car();
+        car1.model = "Mercedes";
+        car1.color = "black";
+        car1.releaseDate = new GregorianCalendar(2020, Calendar.JANUARY, 25);
+        car1.maxSpeed = 10;
+        String description1 = "some description for first car";
+
+        Car car2 = new Car();
+        car2.model = "Audi";
+        car2.color = "white";
+        car2.releaseDate = new GregorianCalendar(2017, Calendar.JANUARY, 25);
+        car2.maxSpeed = 10;
+        String description2 = "some description for second car";
+
+        Car car3 = new Car();
+        car3.model = "Bentley";
+        car3.color = "red";
+        car3.releaseDate = new GregorianCalendar(2018, Calendar.JANUARY, 25);
+        car3.maxSpeed = 10;
+        String description3 = "some description for third car";
+
+        Map<Car, String> map = new HashMap<>();
+        map.put(car1, description1);
+        map.put(car2, description2);
+        map.put(car3, description3);
+
+        assertEquals(description1, map.get(car1));
+        assertEquals(description2, map.get(car2));
+        assertEquals(description3, map.get(car3));
+    }
 }
