@@ -65,7 +65,7 @@ public class NotificationsTest {
 
     @Test
     void generateNotifications() {
-        String expected = "[2022-01-18T21:00]\n" +
+        String expected = "[2022-01-11T21:00]\n" +
                 "{\n" +
                 "Wednesday\n" +
                 "\n" +
@@ -73,22 +73,22 @@ public class NotificationsTest {
                 "[20:10 - 21:30] Java Development\n" +
                 "}\n" +
                 "\n" +
-                "[2022-01-19T00:00]\n" +
+                "[2022-01-12T00:00]\n" +
                 "{\n" +
                 "It is Wednesday, my dudes\n" +
                 "}\n" +
                 "\n" +
-                "[2022-01-19T18:25]\n" +
+                "[2022-01-12T18:25]\n" +
                 "{\n" +
                 "[18:30 - 20:00] Java Development\n" +
                 "}\n" +
                 "\n" +
-                "[2022-01-19T20:05]\n" +
+                "[2022-01-12T20:05]\n" +
                 "{\n" +
                 "[20:10 - 21:30] Java Development\n" +
                 "}\n" +
                 "\n" +
-                "[2022-01-20T21:00]\n" +
+                "[2022-01-13T21:00]\n" +
                 "{\n" +
                 "Friday\n" +
                 "\n" +
@@ -96,12 +96,12 @@ public class NotificationsTest {
                 "[20:10 - 21:30] Java Development\n" +
                 "}\n" +
                 "\n" +
-                "[2022-01-21T18:25]\n" +
+                "[2022-01-14T18:25]\n" +
                 "{\n" +
                 "[18:30 - 20:00] Java Development\n" +
                 "}\n" +
                 "\n" +
-                "[2022-01-21T20:05]\n" +
+                "[2022-01-14T20:05]\n" +
                 "{\n" +
                 "[20:10 - 21:30] Java Development\n" +
                 "}";
@@ -110,14 +110,17 @@ public class NotificationsTest {
         LocalDateTime dateTime = LocalDateTime.of(2022, 1, 10, 0, 0);
         Clock clock = Clock.fixed(dateTime.atZone(zone).toInstant(), zone);
 
+        List<Notification> notifications;
+
         try (MockedStatic<ClockBean> mockedStatic = mockStatic(ClockBean.class)) {
             mockedStatic.when(ClockBean::clock).thenReturn(clock);
+
+            notifications = notificationTemplates.stream()
+                    .map(Notification::closest)
+                    .sorted(Comparator.comparing(n -> n.dateTime))
+                    .collect(Collectors.toList());
         }
 
-        List<Notification> notifications = notificationTemplates.stream()
-                .map(Notification::closest)
-                .sorted(Comparator.comparing(n -> n.dateTime))
-                .collect(Collectors.toList());
         String actual = notifications.stream()
                 .map(n -> "[" + n.dateTime + "]\n{\n" + n.text + "\n}")
                 .collect(Collectors.joining("\n\n"));
