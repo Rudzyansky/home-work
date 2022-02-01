@@ -1,16 +1,15 @@
 package com.sbrf.reboot.functionalinterface;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
+import com.sbrf.reboot.utils.JSONUtils;
+import lombok.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public class FunctionalInterfaceTest {
 
@@ -28,13 +27,19 @@ public class FunctionalInterfaceTest {
 
     static class ListConverter<T> {
         public List<String> toJsonsList(@NonNull List<T> someObjects, ObjectToJsonFunction<T> objectToJsonFunction) {
-            List<String> result = new ArrayList<>();
             if (someObjects.isEmpty())
                 throw new IllegalArgumentException("The list is empty");
 
-            //add code here...
-
-            return result;
+            //noinspection Convert2Lambda,Anonymous2MethodRef
+            return someObjects.stream()
+                    .map(new Function<T, String>() {
+                        @SneakyThrows(JsonProcessingException.class)
+                        @Override
+                        public String apply(T t) {
+                            return objectToJsonFunction.applyAsJson(t);
+                        }
+                    })
+                    .collect(Collectors.toList());
         }
     }
 
@@ -42,10 +47,7 @@ public class FunctionalInterfaceTest {
     public void successCallFunctionalInterface() {
         ListConverter<SomeObject> ListConverter = new ListConverter<>();
 
-        ObjectToJsonFunction<SomeObject> objectToJsonFunction = someObject -> {
-            //add code here...
-            return null;
-        };
+        ObjectToJsonFunction<SomeObject> objectToJsonFunction = JSONUtils::toJSON;
 
         List<String> strings = ListConverter.toJsonsList(
                 Arrays.asList(
