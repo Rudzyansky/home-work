@@ -47,14 +47,12 @@ public class FunctionalInterfaceTest {
     public void successCallFunctionalInterface() {
         ListConverter<SomeObject> ListConverter = new ListConverter<>();
 
-        ObjectToJsonFunction<SomeObject> objectToJsonFunction = JSONUtils::toJSON;
-
         List<String> strings = ListConverter.toJsonsList(
                 Arrays.asList(
                         new SomeObject("Object-1"),
                         new SomeObject("Object-2")
                 ),
-                objectToJsonFunction
+                JSONUtils::toJSON
         );
 
         Assertions.assertTrue(strings.contains("{\"objectName\":\"Object-1\"}"));
