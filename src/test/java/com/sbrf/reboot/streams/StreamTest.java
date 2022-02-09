@@ -2,13 +2,14 @@ package com.sbrf.reboot.streams;
 
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -100,4 +101,102 @@ public class StreamTest {
 
     }
 
+    @Test
+    public void limitTest() {
+        long count = 15;
+        Random rnd = new Random();
+
+        List<Integer> randoms = IntStream.generate(rnd::nextInt)
+                .limit(count)
+                .boxed()
+                .collect(Collectors.toList());
+
+        assertEquals(count, randoms.size());
+    }
+
+    @Test
+    public void maxLineTest() {
+        String[] strings = {
+                "Hello",
+                "Word",
+                "AZAZAZAZA",
+                "Nya kawaii desu sempai^^",
+                "ЫВа",
+                "Sasai Kudasai"
+        };
+
+        int maxLineSize = Arrays.stream(strings).mapToInt(String::length).max().getAsInt();
+
+        assertEquals(24, maxLineSize);
+    }
+
+    @Test
+    public void flatMapUsageTest() {
+        List<User> users = Arrays.asList(
+                new User("Dominator2003", Permissions.USER, Permissions.PATAY),
+                new User("LeshaNavalivaetYT", Permissions.USER),
+                new User("CECYPUTU", Permissions.MODERATOR),
+                new User("♂GA4I♂", Permissions.USER),
+                new User("ToDeathSun", Permissions.USER),
+                new User("♂DUNGEON MASTER♂", Permissions.ADMIN),
+                new User("♂FIVE FINGERS FIST FEST♂", Permissions.MODERATOR, Permissions.PATAY),
+                new User("UniverseChan", Permissions.USER),
+                new User("ne spam bot atvi4ay", Permissions.USER, Permissions.PATAY),
+                new User("NekoChan", Permissions.MODERATOR),
+                new User("CoChan", Permissions.USER),
+                new User("KOChan", Permissions.ADMIN),
+                new User("CAPTCHAtsky", Permissions.USER),
+                new User("StringOFF", Permissions.USER),
+                new User("Непреднамеренный панчлайн", Permissions.USER),
+                new User("Сын маминой подруги", Permissions.PATAY)
+        );
+        List<String> onlineList = Arrays.asList(
+                "ne spam bot atvi4ay",
+                "♂DUNGEON MASTER♂", // admin
+                "CoChan",
+                "CECYPUTU", // moder
+                "NekoChan", //moder
+                "LeshaNavalivaetYT",
+                "CAPTCHAtsky",
+                "Сын маминой подруги"
+        );
+        users.stream()
+                .filter(u -> onlineList.stream().anyMatch(n -> n.equals(u.name)))
+                .forEach(u -> u.setOnline(true));
+
+        long staffOnlineCount = users.stream()
+                .filter(User::isOnline)
+                .map(User::getPermissions)
+                .flatMap(Collection::stream)
+                .filter(Permissions::isStaff)
+                .count();
+
+        assertEquals(3, staffOnlineCount);
+    }
+
+    enum Permissions {
+        GUEST,
+        PATAY,
+        USER,
+        MODERATOR,
+        ADMIN;
+
+        public static boolean isStaff(Permissions permissions) {
+            return permissions == MODERATOR || permissions == ADMIN;
+        }
+    }
+
+    @SuppressWarnings("InnerClassMayBeStatic")
+    @Getter
+    class User {
+        private final String name;
+        private final Set<Permissions> permissions;
+        @Setter
+        private boolean online;
+
+        public User(String name, Permissions... permissions) {
+            this.name = name;
+            this.permissions = Arrays.stream(permissions).collect(Collectors.toSet());
+        }
+    }
 }
