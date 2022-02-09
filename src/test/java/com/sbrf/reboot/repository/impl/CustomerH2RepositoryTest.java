@@ -16,6 +16,8 @@ class CustomerH2RepositoryTest {
     @BeforeAll
     public static void before() {
         customerRepository = new CustomerH2Repository();
+        ((CustomerH2Repository) customerRepository).dropTable();
+        ((CustomerH2Repository) customerRepository).createTableIfNotExists();
     }
 
     @Test
@@ -29,7 +31,6 @@ class CustomerH2RepositoryTest {
 
     @Test
     void createCustomer() {
-
         boolean mariaCreated = customerRepository.createCustomer("Maria", "maria98@ya.ru");
 
         assertTrue(mariaCreated);
