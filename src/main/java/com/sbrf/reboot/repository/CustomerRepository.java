@@ -9,6 +9,10 @@ public interface CustomerRepository {
 
     boolean createCustomer(@NonNull String userName, String eMail);
 
+    boolean updateCustomerEMailByUserName(@NonNull String userName, String eMail);
+
+    boolean isCustomerExists(@NonNull String userName);
+
     List<Customer> getAll();
 
 }

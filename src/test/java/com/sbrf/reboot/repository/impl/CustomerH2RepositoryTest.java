@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 class CustomerH2RepositoryTest {
 
@@ -34,5 +34,43 @@ class CustomerH2RepositoryTest {
         boolean mariaCreated = customerRepository.createCustomer("Maria", "maria98@ya.ru");
 
         assertTrue(mariaCreated);
+    }
+
+    @Test
+    void customerExists() {
+        boolean aliceCreated = customerRepository.createCustomer("Alice", "alice@ya.ru");
+
+        boolean isAliceExists = customerRepository.isCustomerExists("Alice");
+
+        assertTrue(isAliceExists);
+    }
+
+    @Test
+    void customerDoesNotExists() {
+        boolean isEveExists = customerRepository.isCustomerExists("Eve");
+
+        assertFalse(isEveExists);
+    }
+
+    @Test
+    void updateEMail() {
+        String username = "Bob";
+        String email = "bob@ya.ru";
+
+        String newEmail = "eve@ya.ru";
+
+        customerRepository.createCustomer(username, email);
+
+        boolean updated = customerRepository.updateCustomerEMailByUserName(username, newEmail);
+
+        //noinspection OptionalGetWithoutIsPresent
+        String actual = customerRepository.getAll().stream()
+                .filter(c -> username.equals(c.getName()))
+                .map(Customer::getEMail)
+                .findFirst()
+                .get();
+
+        assertEquals(newEmail, actual);
+        assertTrue(updated);
     }
 }

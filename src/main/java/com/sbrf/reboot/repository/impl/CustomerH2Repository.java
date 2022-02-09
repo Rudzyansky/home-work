@@ -3,6 +3,8 @@ package com.sbrf.reboot.repository.impl;
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 import com.sbrf.reboot.dto.Customer;
 import com.sbrf.reboot.repository.CustomerRepository;
+import lombok.NonNull;
+import lombok.SneakyThrows;
 
 import javax.sql.DataSource;
 import java.sql.*;
@@ -85,6 +87,31 @@ public class CustomerH2Repository implements CustomerRepository {
             stmt.setString(3, name);
             int affected = stmt.executeUpdate();
             return affected > 0;
+        }
+    }
+
+    @SneakyThrows
+    @Override
+    public boolean updateCustomerEMailByUserName(@NonNull String userName, String eMail) {
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement stmt = connection.prepareStatement("UPDATE `CUSTOMERS` SET `EMAIL` = ? WHERE `NAME` = ?")) {
+            stmt.setString(1, eMail);
+            stmt.setString(2, userName);
+            int affected = stmt.executeUpdate();
+            return affected > 0;
+        }
+    }
+
+    @SneakyThrows
+    @Override
+    public boolean isCustomerExists(@NonNull String userName) {
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement stmt = connection.prepareStatement("SELECT EXISTS(SELECT * FROM `CUSTOMERS` WHERE `NAME` = ?)")) {
+            stmt.setString(1, userName);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (!rs.first()) throw new SQLException("Not found rows in SELECT EXISTS(...)");
+                return rs.getBoolean(1);
+            }
         }
     }
 }
