@@ -19,12 +19,16 @@ public class SomeService {
         final Future<String> handler = executor.submit(new Callable() {
             @Override
             public String call() throws Exception {
+                ExecutorService executor = Executors.newSingleThreadExecutor();
 
-                // Реализуйте отправку отчета используя CompletableFuture
-                String reportResult = reportService.sendReport("Отправляю отчет");
+                CompletableFuture<String> reportFuture = CompletableFuture
+                        .supplyAsync(() -> reportService.sendReport("Отправляю отчет"), executor);
 
                 //какой то код..
                 Thread.sleep(Duration.ofSeconds(3).toMillis());
+
+                String reportResult = reportFuture.get();
+                executor.shutdown();
 
                 if (reportResult.equals("SUCCESS")) {
                     System.out.println("Отчет отправлен успешно");
