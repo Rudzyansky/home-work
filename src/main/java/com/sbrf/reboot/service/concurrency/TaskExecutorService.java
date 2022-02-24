@@ -1,7 +1,10 @@
 package com.sbrf.reboot.service.concurrency;
 
+import lombok.SneakyThrows;
+
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 public class TaskExecutorService {
 
@@ -14,8 +17,11 @@ public class TaskExecutorService {
         this.numberOfThreads = numberOfThreads;
     }
 
+    @SneakyThrows
     public void execute(Task task) {
-        service.execute(task);
+        for (int i = 0; i < numberOfThreads; i++) {
+            service.execute(task);
+        }
     }
 
     public void shutdown() {
