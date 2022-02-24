@@ -35,4 +35,40 @@ public class TaskExecutorServiceTest {
 
         taskExecutorService.shutdown();
     }
+
+    private static void multithreadingTest(TaskExecutorService taskExecutorService) throws InterruptedException {
+        int numberOfThreads = taskExecutorService.getNumberOfThreads();
+
+        Task task = Mockito.mock(Task.class);
+
+        CountDownLatch latch = new CountDownLatch(numberOfThreads);
+
+        doAnswer((e -> {
+            latch.countDown();
+            return null;
+        })).when(task).run();
+
+        taskExecutorService.execute(task);
+
+        latch.await();
+
+        assertEquals(0, latch.getCount());
+        verify(task, times(numberOfThreads)).run();
+    }
+
+    @Test
+    public void setNumberOfThreads() throws InterruptedException {
+
+        TaskExecutorService taskExecutorService = new TaskExecutorService(2);
+
+        multithreadingTest(taskExecutorService);
+
+        taskExecutorService.setNumberOfThreads(4);
+        multithreadingTest(taskExecutorService);
+
+        taskExecutorService.setNumberOfThreads(1);
+        multithreadingTest(taskExecutorService);
+
+        taskExecutorService.shutdown();
+    }
 }
